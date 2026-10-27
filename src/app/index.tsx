@@ -1,98 +1,110 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { router } from "expo-router";
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <View style={styles.container}>
+      <Text style={styles.emoji}>🎌</Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <Text style={styles.title}>Anime Hunter</Text>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+      <Text style={styles.subtitle}>
+        Learn Async Programming with React Native
+      </Text>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      <Pressable style={styles.button} onPress={() => router.push("/search")}>
+        <Text style={styles.buttonText}>🔎 Search Character</Text>
+      </Pressable>
+
+      <Pressable
+        style={[styles.button, styles.secondary]}
+        onPress={() => router.push("/favorites")}
+      >
+        <Text style={styles.buttonText}>❤️ My Favorites</Text>
+      </Pressable>
+
+      <View style={styles.info}>
+        <Text style={styles.infoTitle}>Async concepts</Text>
+
+        <Text style={styles.infoText}>• Promise</Text>
+
+        <Text style={styles.infoText}>• async / await</Text>
+
+        <Text style={styles.infoText}>• .then() / .catch()</Text>
+
+        <Text style={styles.infoText}>• try / catch / finally</Text>
+
+        <Text style={styles.infoText}>• Promise.all()</Text>
+
+        <Text style={styles.infoText}>• Promise.allSettled()</Text>
+
+        <Text style={styles.infoText}>• AsyncStorage</Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    padding: 25,
+    justifyContent: "center",
+    backgroundColor: "#f8fafc",
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+
+  emoji: {
+    textAlign: "center",
+    fontSize: 60,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
+
   title: {
-    textAlign: 'center',
+    textAlign: "center",
+    fontSize: 32,
+    fontWeight: "800",
+    marginTop: 10,
   },
-  code: {
-    textTransform: 'uppercase',
+
+  subtitle: {
+    textAlign: "center",
+    color: "#64748b",
+    marginTop: 8,
+    marginBottom: 30,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  button: {
+    backgroundColor: "#6366f1",
+    padding: 17,
+    borderRadius: 14,
+    marginBottom: 12,
+  },
+
+  secondary: {
+    backgroundColor: "#ec4899",
+  },
+
+  buttonText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+
+  info: {
+    marginTop: 25,
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+  },
+
+  infoTitle: {
+    fontWeight: "800",
+    fontSize: 17,
+    marginBottom: 10,
+  },
+
+  infoText: {
+    color: "#475569",
+    marginBottom: 5,
   },
 });
